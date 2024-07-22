@@ -12,7 +12,7 @@ export default function ErrorPage() {
   return (
     <div id="error-page">
       <h1>Oops!</h1>
-      <p>Sorry, this route down not exist.</p>
+      <p>Sorry, there has been an application error.</p>
       <p>
         <i>{error.statusText || error.message}</i>
       </p>

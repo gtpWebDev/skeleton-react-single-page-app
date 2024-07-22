@@ -1,39 +1,31 @@
 import App from "./App";
-import ExampleRoute from "./ExampleRoute";
-import Default from "./Default";
-import Child1 from "./Child1";
-import Child2 from "./Child2";
-import DynamicSegment from "./DynamicSegment";
+import Home from "./Home";
+import Register from "./Register";
+import Login from "./Login";
+import Profile from "./Profile";
 import ErrorPage from "./ErrorPage";
-import ErrorPage2 from "./ErrorPage2";
 
 // create the configuration for the router
 const routes = [
   {
+    // Holds the main page structure - header, sidebar, footer, etc.
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "dynamic-segment/:segmentId",
-    element: <DynamicSegment />,
-  },
-
-  {
-    path: "example-route",
-    element: <ExampleRoute />,
-    errorElement: <ErrorPage2 />,
-    // children rendered as nested components e.g. example-route/child1
     children: [
       // renders when there are no children
-      { index: true, element: <Default /> },
+      { index: true, element: <Home /> },
       {
-        path: "child1",
-        element: <Child1 />,
+        path: "/register",
+        element: <Register />,
       },
       {
-        path: "child2",
-        element: <Child2 />,
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/profile/:profileId",
+        element: <Profile />,
       },
     ],
   },

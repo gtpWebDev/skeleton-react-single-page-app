@@ -186,3 +186,4 @@ Added a number of components which demonstrate the routing, with child component
 Next: authorization
 Next: useOutletContext to pass data from a parent to a component rendered by an outlet (child) (see shopping cart and odin guide)
 Next: implementing protected / authorised routes using <Navigate />
+chrom
