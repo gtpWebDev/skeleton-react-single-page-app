@@ -1,7 +1,7 @@
 # skeleton-react-single-page-app
 
 A template appropriate for publishing a react-based single page application.
-Incorporates the following major elements:
+Incorporates the following elements:
 
 - Basic project set-up with Vite
 - Testing environment for react
@@ -10,7 +10,13 @@ Incorporates the following major elements:
 
 ## Using the template
 
-Clone this repository, then install the dependencies.
+Clone this repository.
+
+```git
+git clone <SSH code>
+```
+
+Then install the dependencies.
 
 ```git
 npm install
@@ -26,6 +32,8 @@ From within the project folder, create a react app using Vite, and install the n
 npm create vite@latest ./ -- --template react
 npm install
 ```
+
+Update the title in index.html to the project name.
 
 ### Installing Prop-Types
 
@@ -133,4 +141,48 @@ function App() {
 export default App;
 ```
 
-NEED TO ADD - REDUCING STYLING FILES TO START POINT
+Need to add: reducing styling to a start point for index.css and App.css
+
+### Adding a basic react-router start point
+
+Install the react-route package.
+
+```git
+npm install react-router-dom
+```
+
+This follows the [Odin Project react router guide](https://www.theodinproject.com/lessons/node-path-react-new-react-router).
+
+Create **routes.jsx** (see content of src/routes.jsx) to define the routes array
+
+Amend **main.jsx** to configure the routes.
+
+```js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import routes from "./routes";
+
+const router = createBrowserRouter(routes);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
+```
+
+Added a number of components which demonstrate the routing, with child components, dynamic segments, invalid route error pages:
+
+- **ExampleRoute.jsx**
+- **Default.jsx**
+- **Child1.jsx**
+- **Child2.jsx**
+- **DynamicSegment.jsx**
+- **ErrorPage1.jsx**
+- **ErrorPage2.jsx**
+
+Next: authorization
+Next: useOutletContext to pass data from a parent to a component rendered by an outlet (child) (see shopping cart and odin guide)
+Next: implementing protected / authorised routes using <Navigate />
