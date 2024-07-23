@@ -12,13 +12,13 @@ Incorporates the following elements:
 
 Clone this repository.
 
-```git
+```bash
 git clone <SSH code>
 ```
 
 Then install the dependencies.
 
-```git
+```bash
 npm install
 ```
 
@@ -127,6 +127,11 @@ export default defineConfig({
 npm install @testing-library/user-event --save-dev
 ```
 
+### Add some src sub-directories for project structure
+
+**lib** - for all utility
+**constants** - self explanatory
+
 ### Tidying up main, index and css files from react start setup
 
 Replace the **App.jsx** content with:
@@ -143,7 +148,7 @@ export default App;
 
 Need to add: reducing styling to a start point for index.css and App.css
 
-### Adding a basic react-router start point
+### Add basic routes using react-router
 
 Install the react-route package.
 
@@ -173,17 +178,42 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 ```
 
-Added a number of components which demonstrate the routing, with child components, dynamic segments, invalid route error pages:
+Add the components to correspond to the route structure:
 
-- **ExampleRoute.jsx**
-- **Default.jsx**
-- **Child1.jsx**
-- **Child2.jsx**
-- **DynamicSegment.jsx**
-- **ErrorPage1.jsx**
-- **ErrorPage2.jsx**
+- **Home.jsx**
+- **Register.jsx**
+- **Login.jsx**
+- **Dashboard.jsx**
+- **ErrorPage.jsx**
+- **ScrollToTop.jsx** - a useful addition to ensure user scrolls to top on using a route
+
+### Add front-end handling of authentication using JSON Web Token strategy
+
+Enables the following fundamental elements:
+
+- registering a new user - adding them to the back-end user database
+- logging in a user - checking the credentials agains the back-end user database
+- storing JWT in local storage - used to authorize web requests
+
+#### Install axios and add some basic axios functions
+
+```bash
+npm install axios
+```
+
+Added **lib/axiosUtility.js** with some generalised axios functionality - for gets, posts, etc. and also with interceptors - here, mainly pre-request functions to add the JSON Web Token to the request header.
+
+#### Set-up handling of local storage with Auth Service class
+
+Install moment, which manipulates dates (guide used this, no sense in changing)
+
+```bash
+npm install moment
+```
+
+Added **lib/AuthService.js** which adds and removes the JWT details to local storage, which then gets added to requests using the interceptors.
 
 Next: authorization
 Next: useOutletContext to pass data from a parent to a component rendered by an outlet (child) (see shopping cart and odin guide)
 Next: implementing protected / authorised routes using <Navigate />
-chrom
+Next: just check all scenarios around failures, etc.

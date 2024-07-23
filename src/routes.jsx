@@ -2,7 +2,7 @@ import App from "./App";
 import Home from "./Home";
 import Register from "./Register";
 import Login from "./Login";
-import Profile from "./Profile";
+import Dashboard from "./Dashboard";
 import ErrorPage from "./ErrorPage";
 
 // create the configuration for the router
@@ -24,9 +24,13 @@ const routes = [
         element: <Login />,
       },
       {
-        path: "/profile/:profileId",
-        element: <Profile />,
+        path: "/dashboard",
+        element: <Dashboard />,
       },
+      // {
+      //   path: "/profile/:profileId",
+      //   element: <Profile />,
+      // },
     ],
   },
 ];
