@@ -10,21 +10,27 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const [existingUser, setExistingUser] = useState(null);
+  const [loginMsg, setLoginMsg] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const body = { username, password };
-    const credentials = await axiosPost(LOGIN_URI, body, HEADER_JSON_CONFIG);
-    console.log("received credentials", credentials);
-    const authService = new AuthService();
-    authService.setLocalStorage(credentials);
-    // collect currentUser
-    setExistingUser(credentials.user._id);
+    const response = await axiosPost(LOGIN_URI, body, HEADER_JSON_CONFIG);
+    if (response.success) {
+      const credentials = response.data;
+      console.log("received credentials", credentials);
+      // store credentials in local storage and update current user
+      const authService = new AuthService();
+      authService.setLocalStorage(credentials);
+      setExistingUser(credentials.user._id);
+    } else {
+      setLoginMsg(response.error.message);
+    }
   };
 
   return (
     <div>
-      {/* Login succeeds, redirect to dashboard */}
+      {/* User available after successful login, redirect to dashboard */}
       {existingUser && <Navigate to={`/dashboard`} replace={false} />}
 
       <h3>Login Page</h3>
@@ -49,6 +55,8 @@ const Login = () => {
         />
         <br />
         <input type="submit" value="Submit" />
+        {/* Message for login issues */}
+        {loginMsg.length > 0 ? <p>{loginMsg}</p> : <></>}
       </form>
     </div>
   );

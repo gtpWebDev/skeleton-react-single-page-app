@@ -128,7 +128,6 @@ export const axiosGet = async (relativeUri) => {
       data: null,
       error: {
         status: error.response.status,
-        statusText: error.response.statusText,
         message: error.response.data,
       },
     };
@@ -142,27 +141,39 @@ export const axiosPost = async (relativeUri, data, config) => {
   // axios stringifies the post data when we send Javascript objects
   try {
     const response = await axiosInstance.post(relativeUri, data, config);
-    return response.data;
+    const successResponse = {
+      // server data is {success: true/false, data}
+      success: response.data.success,
+      data: response.data,
+      error: null,
+    };
+    console.log("axiosPost returning successResponse", successResponse);
+    return successResponse;
   } catch (error) {
-    const err = new Error();
-    err.status = error.status;
-    err.msg = error.response.data.msg;
-    return err;
+    console.log("AxiosError", error);
+    const errorResponse = {
+      success: false,
+      data: null,
+      error: {
+        status: error.response.status,
+        message: error.response.data.msg,
+      },
+    };
+    console.log("axiosPost returning errorResponse", errorResponse);
+    return errorResponse;
   }
 };
 
-export const axiosWithConfig = async (config) => {
-  /* receives standard http request structure
-  const config = {
-    method: "post",
-    url: "/user/12345",
-    data: {
-      firstName: "Fred",
-      lastName: "Flintstone",
-    },
-  };
-  */
-
-  const response = await axiosInstance(config);
-  return response.data;
-};
+// not currently used
+// export const axiosWithConfig = async (config) => {
+//   const config = {
+//     method: "post",
+//     url: "/user/12345",
+//     data: {
+//       firstName: "Fred",
+//       lastName: "Flintstone",
+//     },
+//   };
+//   const response = await axiosInstance(config);
+//   return response.data;
+// };

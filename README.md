@@ -191,9 +191,9 @@ Add the components to correspond to the route structure:
 
 Enables the following fundamental elements:
 
-- registering a new user - adding them to the back-end user database
-- logging in a user - checking the credentials agains the back-end user database
-- storing JWT in local storage - used to authorize web requests
+1. registering a new user - adding them to the back-end user database
+2. logging in a user - checking the credentials agains the back-end user database
+3. storing JWT in local storage - used to authorize all requests to the backend
 
 #### Install axios and add some basic axios functions
 
@@ -213,7 +213,19 @@ npm install moment
 
 Added **lib/AuthService.js** which adds and removes the JWT details to local storage, which then gets added to requests using the interceptors.
 
-Next: authorization
-Next: useOutletContext to pass data from a parent to a component rendered by an outlet (child) (see shopping cart and odin guide)
-Next: implementing protected / authorised routes using <Navigate />
-Next: just check all scenarios around failures, etc.
+#### Streamline backend server requests
+
+Approach to server requests:
+
+1. Structured server responses with success: true/false and either data or an errorMsg
+2. Axios request functions, using standard Axios structure to generate data and errors in a useful form.
+3. Custom hook to deliver data, error and loaded state to component.
+4. Component to use the data or error information.
+
+Add **useGetBackendData.js**
+
+## Possible additions to skeleton
+
+- Would still benefit from a more consistent, structured approach across backend and frontend to the structure of http responses - successful and error
+- Would like to add an example of useOutletContext to pass data from a parent to a component rendered by an outlet (child) (see shopping cart and odin guide)
+- likely sensible to user a more general application of useContext
