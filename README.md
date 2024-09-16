@@ -1,12 +1,16 @@
 # skeleton-react-single-page-app
 
 A template appropriate for publishing a react-based single page application.
+
+This application is currently configured to communicate a published backend based on the **skeleton-jwt-auth** github repository.
+
 Incorporates the following elements:
 
 - Basic project set-up with Vite
 - Testing environment for react
 - Single page app router set-up
 - JSON web token configuration to interact with a separate nodejs back-end
+- Basic components to manage registration, login and viewing a protected dashboard.
 
 ## Using the template
 
@@ -20,6 +24,45 @@ Then install the dependencies.
 
 ```bash
 npm install
+```
+
+Then set up the front-end environment variables, which obviously aren't in the skeleton template, as per the vite approach.
+
+Add the following files in the root directory (these fairly extensive notes until I'm comfortable with front-end environment variables):
+
+**.env**
+
+```bash
+# Notes for environment variables in Vite front end apps:
+#
+# !!! Only non sensitive variables for front end - e.g. URL addresses !!!
+#
+# Variables must be preceded with "VITE_"
+# Incorporate into app as in the following example:
+# - export const BACKEND_URI = import.meta.env.VITE_BACKEND_URL;
+# Then add VITE_BACKEND_URL="as appropriate" in .env.development and .env.production
+#
+# !!! All .env files must go in gitignore !!!
+#
+VITE_APP_NAME="Name of the app"
+```
+
+**.env.development**
+
+```bash
+# currently using dev environment variables for the backend url
+# this should remain as localhost, and should have already been setup ahead
+# of beginning with this frontend app. The port may need to be amended.
+VITE_BACKEND_URL="http://localhost:3000"
+```
+
+**.env.production**
+
+```bash
+# currently using prod environment variables for the backend url
+# this would be updated to the production version of the backend
+# e.g. "https://railwayappname.up.railway.app"
+VITE_BACKEND_URL=""
 ```
 
 ## Step-by-step guide of how this template was created
@@ -41,6 +84,16 @@ Install the npm package
 
 ```bash
 npm install --save prop-types
+```
+
+### Make additions to .gitignore
+
+The vite setup will have added .gitignore. Add the following lines (sensibly positioned below node_modules) to ensure the environment variable files, when added, are not uploaded to git
+
+```bash
+.env
+.env.development
+.env.production
 ```
 
 ### Installing testing elements using Vitest
@@ -132,20 +185,6 @@ npm install @testing-library/user-event --save-dev
 **lib** - for all utility
 **constants** - self explanatory
 
-### Tidying up main, index and css files from react start setup
-
-Replace the **App.jsx** content with:
-
-```js
-import "./App.css";
-
-function App() {
-  return <>Hello World</>;
-}
-
-export default App;
-```
-
 Need to add: reducing styling to a start point for index.css and App.css
 
 ### Add basic routes using react-router
@@ -187,6 +226,66 @@ Add the components to correspond to the route structure:
 - **ErrorPage.jsx**
 - **ScrollToTop.jsx** - a useful addition to ensure user scrolls to top on using a route
 
+### Update app.jsx with some basic structure, consistent with the routes setup
+
+Replace the **App.jsx** content with:
+
+```js
+import { Outlet, Link } from "react-router-dom";
+
+import ScrollToTop from "./scrollToTop";
+
+function App() {
+  return (
+    <>
+      <ScrollToTop />
+      <TitleBar />
+      <NavBar />
+      <Sidebar />
+      <main>
+        <h2>Main Content</h2>
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+const TitleBar = () => {
+  return (
+    <header>
+      <h1>Title Bar</h1>
+      <hr />
+    </header>
+  );
+};
+
+const NavBar = () => {
+  return (
+    <nav>
+      <h2>Nav Bar</h2>
+      <Link to="/">Return to home</Link>
+      <hr />
+    </nav>
+  );
+};
+
+const Sidebar = () => {
+  <aside>{/* Empty currently */}</aside>;
+};
+
+const Footer = () => {
+  return (
+    <footer>
+      <hr />
+      <h2>Footer</h2>
+    </footer>
+  );
+};
+
+export default App;
+```
+
 ### Add front-end handling of authentication using JSON Web Token strategy
 
 Enables the following fundamental elements:
@@ -202,6 +301,8 @@ npm install axios
 ```
 
 Added **lib/axiosUtility.js** with some generalised axios functionality - for gets, posts, etc. and also with interceptors - here, mainly pre-request functions to add the JSON Web Token to the request header.
+
+Added **constants/backendRequests.js** with some fairly self explanatory constants, which set-up the initial app to communicate with the backend locations in the env.development and .production files, which are eplxained higher up in this file.
 
 #### Set-up handling of local storage with Auth Service class
 
